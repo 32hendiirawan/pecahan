@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dunia Pecahan Ceria - Menu Utama</title>
+    <style>
+        /* Gaya Dasar Kebun Matematika */
+        body { 
+            font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; 
+            background: linear-gradient(135deg, #f0f4ff 0%, #d9e4ff 100%);
+            margin: 0;
+            padding: 20px 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Banner Judul Game */
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-title h1 {
+            color: #4a54df;
+            text-shadow: 3px 3px 0px #ffffff, 6px 6px 0px rgba(74, 84, 223, 0.15);
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .main-title p {
+            color: #6c5ce7;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            border: 2px solid #b4c6ff;
+            display: inline-block;
+            margin: 0;
+        }
+
+        /* Container Menu Utama */
+        .menu-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Tombol Menu Bergaya Game 3D Pop-Up */
+        .menu-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #2f3542;
+            border: 4px solid #4a54df;
+            box-shadow: 0 8px 0px #343a9e;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Efek Tekan Tombol */
+        .menu-card:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0px #343a9e;
+        }
+
+        /* Variasi Warna dan Desain Icon Bulat */
+        .menu-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .card-hitung { border-color: #1dd1a1; box-shadow: 0 8px 0px #10ac84; }
+        .card-hitung:active { box-shadow: 0 2px 0px #10ac84; }
+        .card-hitung .menu-icon { background: #1dd1a1; box-shadow: 0 4px 0px #10ac84; }
+
+        .card-ubah { border-color: #ff7675; box-shadow: 0 8px 0px #d63031; }
+        .card-ubah:active { box-shadow: 0 2px 0px #d63031; }
+        .card-ubah .menu-icon { background: #ff7675; box-shadow: 0 4px 0px #d63031; }
+
+        .card-tentang { border-color: #a29bfe; box-shadow: 0 8px 0px #6c5ce7; }
+        .card-tentang:active { box-shadow: 0 2px 0px #6c5ce7; }
+        .card-tentang .menu-icon { background: #a29bfe; box-shadow: 0 4px 0px #6c5ce7; }
+
+        /* Teks Menu */
+        .menu-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-info .menu-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #2f3542;
+            margin-bottom: 4px;
+        }
+
+        .menu-info .menu-desc {
+            font-size: 0.85rem;
+            color: #747d8c;
+            font-weight: 600;
+        }
+
+        /* ================= MODAL TENTANG PEMBUAT ================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(47, 53, 66, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            border: 4px solid #a29bfe;
+            padding: 25px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+
+        /* Foto/Avatar Profil */
+        .avatar-circle {
+            width: 90px;
+            height: 90px;
+            background: #ffeaa7;
+            border: 4px solid #fdcb6e;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 6px 0px rgba(0,0,0,0.05);
+        }
+
+        .modal-content h3 {
+            margin: 0 0 5px 0;
+            color: #2f3542;
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        .modal-content p {
+            margin: 0 0 20px 0;
+            color: #747d8c;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .btn-tutup {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0px #ff214f;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-tutup:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0px #ff214f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-title">
+        <h1>PETUALANGAN PECAHAN</h1>
+        <p>🎮 Pilih Mode Bermainmu!</p>
+    </div>
+
+    <div class="menu-container">
+        
+        <a href="hitung.html" class="menu-card card-hitung">
+            <div class="menu-icon">÷</div>
+            <div class="menu-info">
+                <span class="menu-title">Hitung Pecahan</span>
+                <span class="menu-desc">Tambah, kurang, kali, dan bagi pecahan campuran.</span>
+            </div>
+        </a>
+
+        <a href="ubah.html" class="menu-card card-ubah">
+            <div class="menu-icon">⇄</div>
+            <div class="menu-info">
+                <span class="menu-title">Ubah Pecahan</span>
+                <span class="menu-desc">Konversi pecahan biasa ke campuran & sebaliknya.</span>
+            </div>
+        </a>
+
+        <div class="menu-card card-tentang" onclick="bukaTentang()">
+            <div class="menu-icon">👤</div>
+            <div class="menu-info">
+                <span class="menu-title">Tentang Pembuat</span>
+                <span class="menu-desc">Kenalan dengan pembuat aplikasi ceria ini.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalTentang" onclick="tutupTentang(event)">
+        <div class="modal-content">
+            <img src="asset/logo.png" alt="Avatar Pembuat" class="avatar-circle">
+            <h3>Halo Sahabat!</h3>
+            <p>Aplikasi edukasi matematika ini dibuat khusus dengan penuh kasih sayang untuk membantu anak-anak belajar pecahan dengan cara yang mudah, interaktif, dan menyenangkan! ✨</p>
+            <p>Anda bisa memesan aplikasi lainnya melalui chat <a href="https://wa.me/6282289015759" target="_blank" style="color: green; text-decoration: none; font-weight: bold;">WhatsApp</a>.</p>
+            <button class="btn-tutup" onclick="document.getElementById('modalTentang').classList.remove('show')">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        function bukaTentang() {
+            document.getElementById('modalTentang').classList.add('show');
+        }
+
+        // Menutup pop-up jika pengguna mengetuk area buram di luar kotak dialog
+        function tutupTentang(e) {
+            if (e.target.id === 'modalTentang') {
+                document.getElementById('modalTentang').classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>
